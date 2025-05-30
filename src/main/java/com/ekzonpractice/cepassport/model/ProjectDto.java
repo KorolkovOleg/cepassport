@@ -1,26 +1,24 @@
 package com.ekzonpractice.cepassport.model;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProjectDto {
+
+    @NotBlank(message = "Название проекта не может быть пустым")
+    @Size(min = 3, max = 100, message = "Название проекта должно быть от 3 до 100 символов")
     private String name;
+
+    @NotBlank(message = "Статус проекта не может быть пустым")
     private String status;
-    private String documents;
 
-    // Конструкторы
-    public ProjectDto() {}
-
-    public ProjectDto(String name, String status, String documents) {
-        this.name = name;
-        this.status = status;
-        this.documents = documents;
-    }
-
-    // Геттеры и сеттеры
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-
-    public String getDocuments() { return documents; }
-    public void setDocuments(String documents) { this.documents = documents; }
+    private String documents; // Документы могут быть пустыми
 }

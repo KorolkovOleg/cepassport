@@ -3,6 +3,8 @@ package com.ekzonpractice.cepassport.controller;
 import com.ekzonpractice.cepassport.model.Project;
 import com.ekzonpractice.cepassport.model.ProjectDto;
 import com.ekzonpractice.cepassport.service.ProjectService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +23,7 @@ public class ProjectController {
 
     @PostMapping
     @PreAuthorize("hasRole('EDITOR')")
-    public ResponseEntity<Project> createProject(@RequestBody ProjectDto projectDto) {
+    public ResponseEntity<?> createProject(@Valid @RequestBody ProjectDto projectDto) {
         Project project = new Project(
                 projectDto.getName(),
                 projectDto.getStatus(),
@@ -57,9 +59,9 @@ public class ProjectController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('EDITOR')")
-    public ResponseEntity<Project> updateProject(
+    public ResponseEntity<?> updateProject(
             @PathVariable Long id,
-            @RequestBody ProjectDto projectDto) {
+            @Valid @RequestBody ProjectDto projectDto) {
         Project projectDetails = new Project(
                 projectDto.getName(),
                 projectDto.getStatus(),

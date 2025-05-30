@@ -3,6 +3,7 @@ package com.ekzonpractice.cepassport.security;
 import com.ekzonpractice.cepassport.security.AuthRequest;
 import com.ekzonpractice.cepassport.security.AuthResponse;
 import com.ekzonpractice.cepassport.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +16,15 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody AuthRequest request) {
-        return ResponseEntity.ok(userService.register(request));
+    public ResponseEntity<?> register(@Valid @RequestBody AuthRequest request) {
+        AuthResponse response = userService.register(request);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthResponse> authenticate(@RequestBody AuthRequest request) {
-        return ResponseEntity.ok(userService.authenticate(request));
+    public ResponseEntity<?> authenticate(@Valid @RequestBody AuthRequest request) {
+        AuthResponse response = userService.authenticate(request);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/upgrade-to-editor")
