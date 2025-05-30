@@ -4,10 +4,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CepassportApplication {
+public class CePassportApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CepassportApplication.class, args);
+
+		SpringApplication.run(CePassportApplication.class, args);
 	}
 
 }
+
