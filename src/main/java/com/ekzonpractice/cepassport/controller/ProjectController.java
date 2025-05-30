@@ -4,6 +4,7 @@ import com.ekzonpractice.cepassport.model.Project;
 import com.ekzonpractice.cepassport.model.ProjectDto;
 import com.ekzonpractice.cepassport.service.ProjectService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class ProjectController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('EDITOR')")
     public ResponseEntity<Project> createProject(@RequestBody ProjectDto projectDto) {
         Project project = new Project(
                 projectDto.getName(),
@@ -29,27 +31,32 @@ public class ProjectController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('READER','EDITOR')")
     public ResponseEntity<List<Project>> getAllProjects() {
         return ResponseEntity.ok(service.getAllProjects());
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('READER','EDITOR')")
     public ResponseEntity<Project> getProjectById(@PathVariable Long id) {
         Project project = service.getProjectById(id);
         return project != null ? ResponseEntity.ok(project) : ResponseEntity.notFound().build();
     }
 
     @GetMapping("/status/{status}")
+    @PreAuthorize("hasAnyRole('READER','EDITOR')")
     public ResponseEntity<List<Project>> getProjectsByStatus(@PathVariable String status) {
         return ResponseEntity.ok(service.getProjectsByStatus(status));
     }
 
     @GetMapping("/search")
+    @PreAuthorize("hasAnyRole('READER','EDITOR')")
     public ResponseEntity<List<Project>> searchProjectsByName(@RequestParam String name) {
         return ResponseEntity.ok(service.searchProjectsByName(name));
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('EDITOR')")
     public ResponseEntity<Project> updateProject(
             @PathVariable Long id,
             @RequestBody ProjectDto projectDto) {
@@ -65,6 +72,7 @@ public class ProjectController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('EDITOR')")
     public ResponseEntity<Void> deleteProject(@PathVariable Long id) {
         service.deleteProject(id);
         return ResponseEntity.noContent().build();
